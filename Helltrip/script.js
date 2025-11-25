@@ -11,14 +11,36 @@ const canvas = document.querySelector('canvas')
 	}
 image.src = 'media/map.png'
 
-let x= 200
+class Enemy {
+	constructor({position}	) {
+		this.position = position
+		this.width = 100
+		this.height = 100 
+		}
+		
+	draw() {
+		c.fillStyle = 'red'
+		c.fillRect(this.position.x, this.position.y, this.width, this.height)
+	}
+	update() {
+		this.draw()
+		
+
+		const waypoint = waypoints[0]
+		const xDistance = waypoint.y - this.position.y
+		const xDistance = waypoint.x - this.position.x
+		const angka = Math.atan2(yDistance , xDistance)
+		this.position.x += Math.cos(angle)
+		this.position.y += Math.sin(angle)
+	}
+}
+
+const enemy = new Enemy({position:{x:200 ,y:400}})
+
 function animate() {
 	window.requestAnimationFrame(animate)
 
 	c.drawImage(image, 0, 0)
-
-	c.fillStyle = 'red'
-	c.fillRect(x , 400 , 100 , 100)
-	x++
+	enemy.update()
 }
 
