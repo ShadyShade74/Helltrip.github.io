@@ -12,10 +12,9 @@ body {
     padding: 0;
 }
 .canvas{
-    top: 200;
-
-    width: 1200px;
-    height: 768px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 .title {
     font-size: 150px;

@@ -6,10 +6,19 @@ const canvas = document.querySelector('canvas')
 	c.fillStyle = 'white'
 	c.fillRect(0, 0, canvas.width, canvas.height,)
     const image = new Image()
-    
     image.onload = () => {
-        c.drawImage(image, 0, 0)
-    }
+		animate()
+	}
 image.src = 'media/map.png'
 
-c.fillRect(200 , 400 , 100 , 100)
+let x= 200
+function animate() {
+	window.requestAnimationFrame(animate)
+
+	c.drawImage(image, 0, 0)
+
+	c.fillStyle = 'red'
+	c.fillRect(x , 400 , 100 , 100)
+	x++
+}
+
