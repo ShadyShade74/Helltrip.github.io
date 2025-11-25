@@ -11,3 +11,5 @@ const canvas = document.querySelector('canvas')
         c.drawImage(image, 0, 0)
     }
 image.src = 'media/map.png'
+
+c.fillRect(200 , 400 , 100 , 100)

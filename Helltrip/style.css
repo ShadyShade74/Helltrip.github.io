@@ -11,6 +11,12 @@ body {
     margin: 0;
     padding: 0;
 }
+.canvas{
+    top: 200;
+
+    width: 1200px;
+    height: 768px;
+}
 .title {
     font-size: 150px;
     background: linear-gradient(90deg, #ff0000, #ff6600, #ffaa00);
