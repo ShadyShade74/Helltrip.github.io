@@ -10,9 +10,6 @@ c.fillRect(0, 0, canvas.width, canvas.height);
 const image = new Image();
 image.src = 'media/map.png';
 
-/* const waypoints = [
-    { x: 400, y: 400 }
-]; */
 
 class Enemy {
     constructor({ position = { x: 0, y: 0 } }) {
