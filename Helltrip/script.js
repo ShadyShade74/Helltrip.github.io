@@ -1,23 +1,25 @@
-const canvas = document.querySelector('canvas');
-const c = canvas.getContext('2d');
+const canvas = document.querySelector('canvas')
+const c = canvas.getContext('2d')
 
-canvas.width = 1280;
-canvas.height = 768;
+canvas.width = 1280
+canvas.height = 768
+
 c.fillStyle = 'white';
 c.fillRect(0, 0, canvas.width, canvas.height);
 
 const image = new Image();
 image.src = 'media/map.png';
 
-const waypoints = [
+/* const waypoints = [
     { x: 400, y: 400 }
-];
+]; */
 
 class Enemy {
     constructor({ position = { x: 0, y: 0 } }) {
         this.position = position;
         this.width = 100;
         this.height = 100;
+        this.waypointIndex = 0 ;
     }
 
     draw() {
@@ -27,12 +29,19 @@ class Enemy {
 
     update() {
         this.draw();
-        const waypoint = waypoints[0];
+        const waypoint = waypoints[this.waypointIndex];
         const yDistance = waypoint.y - this.position.y;
         const xDistance = waypoint.x - this.position.x;
         const angle = Math.atan2(yDistance, xDistance);
         this.position.x += Math.cos(angle);
         this.position.y += Math.sin(angle);
+
+        if (
+            Math.round(this.position.x) === Math.round(waypoint.x )&&
+            Math.round(this.position.y) === Math.round(waypoint.y)
+        ) {
+            this.waypointIndex++;
+        }
     }
 }
 
@@ -43,6 +52,7 @@ function animate() {
     window.requestAnimationFrame(animate);
     c.drawImage(image, 0, 0);
     enemy.update();
+	enemy2.update();
 }
 
 image.onload = () => {
