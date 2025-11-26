@@ -13,7 +13,7 @@ class PlacementTile {
 
         if(mouse.x > this.position.x && mouse.x < this.position.x + this.size  &&
             mouse.y > this.position.y && mouse.y < this.position.y + this.size ){
-             
+            this.color = 'rgb(255, 255, 255, 0.4)';
         }
         
     }
@@ -56,3 +56,12 @@ class Enemy {
         }
     }
 }
+$(document).ready(function() {
+ $(".drag").draggable({
+  handle: ".title-bar",
+  start: function () {
+   this.style.transform = "translate(0, 0)"
+  },
+  stack: ".drag"
+ })
+});
