@@ -23,7 +23,7 @@ class PlacementTile {
     constructor({ position = { x: 0, y: 0 } }) {
         this.position = position;
         this.size = 64;
-        this.color = 'turquoise';
+        this.color = 'rgb(255, 255, 255, 0.2)';
     }
     draw() {
         c.fillStyle = this.color;
