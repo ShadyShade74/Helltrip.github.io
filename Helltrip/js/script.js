@@ -19,17 +19,7 @@ for(let i=0 ; i< PlacementTilesData.length ; i+= 20){
 }
 
 
-class PlacementTile {
-    constructor({ position = { x: 0, y: 0 } }) {
-        this.position = position;
-        this.size = 64;
-        this.color = 'rgb(255, 255, 255, 0.2)';
-    }
-    draw() {
-        c.fillStyle = this.color;
-        c.fillRect(this.position.x, this.position.y, this.size , this.size);
-    }
-}
+
 
 const placementTiles = []
 
@@ -109,7 +99,7 @@ function animate() {
         enemy.update();
     })
     placementTiles.forEach(tile  => {
-        tile.draw();
+        tile.update(mouse);
     });
 
 
@@ -120,4 +110,12 @@ image.onload = () => {
     animate();
         
 }
-
+const mouse = {
+    x: undefined,
+    y: undefined
+}
+window.addEventListener('mousemove', (event) => {
+    mouse.x = event.clientX
+    mouse.y = event.clientY
+    console.log(event)
+});
