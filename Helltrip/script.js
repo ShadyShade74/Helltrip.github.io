@@ -11,6 +11,46 @@ c.fillRect(0, 0, canvas.width, canvas.height);
 const image = new Image();
 image.src = 'media/map.png';
 
+console.log(PlacementTilesData)
+const placementTilesData2d =   []
+
+for(let i=0 ; i< PlacementTilesData.length ; i+= 20){
+    placementTilesData2d.push(PlacementTilesData.slice(i, i + 20));
+}
+
+
+class PlacementTile {
+    constructor({ position = { x: 0, y: 0 } }) {
+        this.position = position;
+        this.size = 64;
+        this.color = 'turquoise';
+    }
+    draw() {
+        c.fillStyle = this.color;
+        c.fillRect(this.position.x, this.position.y, this.size , this.size);
+    }
+}
+
+const placementTiles = []
+
+console.log(placementTiles)
+
+placementTilesData2d.forEach((row, y) => {
+    row.forEach((symbol, x) => {
+        if (symbol === 14){
+            placementTiles.push(
+                new PlacementTile({
+                    position: {
+                        x: x * 64,
+                        y: y * 64
+                    }
+                })
+            )
+            }
+        }
+    )
+}
+)
 
 class Enemy {
     constructor({ position = { x: 0, y: 0 } }) {
@@ -65,11 +105,13 @@ for (let i = 0 ; i <10 ; i++){
 function animate() {
     window.requestAnimationFrame(animate);
     c.drawImage(image, 0, 0);
-    enemies.forEach(enemy => {
-            
+    enemies.forEach(enemy => {    
         enemy.update();
-
     })
+    placementTiles.forEach(tile  => {
+        tile.draw();
+    });
+
 
 }
 
