@@ -17,6 +17,10 @@ class Enemy {
         this.width = 100;
         this.height = 100;
         this.waypointIndex = 0 ;
+        this.center = {
+            x: this.position.x + this.width / 2,
+            y: this.position.y + this.height / 2
+        }
     }
 
     draw() {
@@ -27,29 +31,37 @@ class Enemy {
     update() {
         this.draw();
         const waypoint = waypoints[this.waypointIndex];
-        const yDistance = waypoint.y - this.position.y;
-        const xDistance = waypoint.x - this.position.x;
+        const yDistance = waypoint.y - this.center.y;
+        const xDistance = waypoint.x - this.center.x;
         const angle = Math.atan2(yDistance, xDistance);
         this.position.x += Math.cos(angle);
         this.position.y += Math.sin(angle);
+        this.center = {
+            x: this.position.x + this.width / 2,
+            y: this.position.y + this.height / 2
+        }
 
         if (
-            Math.round(this.position.x) === Math.round(waypoint.x )&&
-            Math.round(this.position.y) === Math.round(waypoint.y)
+            Math.round(this.center.x) === Math.round(waypoint.x )&&
+            Math.round(this.center.y) === Math.round(waypoint.y) && this.waypointIndex < waypoints.length
         ) {
             this.waypointIndex++;
         }
     }
 }
 
-const enemy = new Enemy({ position: { x: 200, y: 400 } });
-const enemy2 = new Enemy({ position: { x: 0, y: 400 } });
+
+const enemies = []
+for (let i = 0 ; i <10 ; i++){
+    enemies.push(new Enemy ({
+        position: { x: waypoints[0].x, y: waypoints[0].y }
+    }))
+}
+
 
 function animate() {
     window.requestAnimationFrame(animate);
     c.drawImage(image, 0, 0);
-    enemy.update();
-	enemy2.update();
 }
 
 image.onload = () => {
