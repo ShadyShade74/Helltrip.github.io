@@ -1,8 +1,10 @@
 class PlacementTile {
-    constructor({ position = { x: 0, y: 0 } }) {
+    constructor({ position = { x: 0, y: 0 }, xIndex, yIndex }) {
         this.position = position;
+        this.gridX = xIndex;
+        this.gridY = yIndex;
         this.size = 64;
-        this.color = 'rgba(255, 255, 255, 0.2)';
+        this.color = 'rgba(255,255,255,0.2)';
     }
 
     draw() {
@@ -11,22 +13,21 @@ class PlacementTile {
     }
 
     isHovered(mouse) {
-        return (
-            mouse.x > this.position.x &&
-            mouse.x < this.position.x + this.size &&
-            mouse.y > this.position.y &&
-            mouse.y < this.position.y + this.size
-        );
+        return mouse.x > this.position.x &&
+               mouse.x < this.position.x + this.size &&
+               mouse.y > this.position.y &&
+               mouse.y < this.position.y + this.size;
     }
 
-    update(shouldHighlight) {
-        this.color = shouldHighlight
-            ? 'rgba(255, 255, 255, 0.4)'
-            : 'rgba(255, 255, 255, 0.2)';
+    update(highlight) {
+        this.color = highlight
+            ? 'rgba(255,255,255,0.5)'
+            : 'rgba(255,255,255,0.2)';
 
         this.draw();
     }
 }
+
 class Enemy {
     constructor({ position = { x: 0, y: 0 } }) {
         this.position = position;

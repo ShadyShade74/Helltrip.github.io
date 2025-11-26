@@ -24,20 +24,28 @@ for(let i=0 ; i< PlacementTilesData.length ; i+= 20){
 const placementTiles = []
 
 placementTilesData2d.forEach((row, y) => {
-  row.forEach((symbol, x) => {
-    if (symbol === 14) {
-      placementTiles.push(
-        new PlacementTile({
-          position: {
-            x: x * 64,
-            y: y * 64
-          }
-        })
-      )
-    }
-  })
-})
-
+    row.forEach((symbol, x) => {
+        if (symbol === 14) {
+            placementTiles.push(
+                new PlacementTile({
+                    position: { x: x * 64, y: y * 64 },
+                    xIndex: x,
+                    yIndex: y
+                })
+            );
+        }
+    });
+});
+function block2x2Exists(x, y) {
+    return (
+        placementTilesData2d[y] &&
+        placementTilesData2d[y][x] === 14 &&
+        placementTilesData2d[y][x + 1] === 14 &&
+        placementTilesData2d[y + 1] &&
+        placementTilesData2d[y + 1][x] === 14 &&
+        placementTilesData2d[y + 1][x + 1] === 14
+    );
+}
 
 
 
@@ -52,44 +60,35 @@ for (let i = 0 ; i <10 ; i++){
 }
 
 function animate() {
-    window.requestAnimationFrame(animate);
+    requestAnimationFrame(animate);
     c.drawImage(image, 0, 0);
 
-    enemies.forEach(enemy => enemy.update());
+    enemies.forEach(e => e.update());
 
-    const tilesPerRow = 20;
-    let hoveredIndex = -1;
+    let hovered = null;
 
-    // 1. znajdź kafelek pod myszką
-    placementTiles.forEach((tile, i) => {
-        if (tile.isHovered(mouse)) hoveredIndex = i;
+    // znajdowanie kafelka pod myszą
+    placementTiles.forEach(tile => {
+        if (tile.isHovered(mouse)) hovered = tile;
     });
 
-    placementTiles.forEach((tile, i) => {
+    placementTiles.forEach(tile => {
         let highlight = false;
 
-        if (hoveredIndex !== -1) {
+        if (hovered) {
+            const hx = hovered.gridX;
+            const hy = hovered.gridY;
 
-            // Indeksy dla 2×2
-            const A = hoveredIndex;
-            const B = hoveredIndex + 1;
-            const C = hoveredIndex + tilesPerRow;
-            const D = hoveredIndex + tilesPerRow + 1;
+            if (block2x2Exists(hx, hy)) {
+                const x = tile.gridX;
+                const y = tile.gridY;
 
-            // 2. sprawdź, czy A,B,C,D są w jednym bloku (nie przechodzą do następnego wiersza)
-            const sameRow = Math.floor(A / tilesPerRow) === Math.floor(B / tilesPerRow);
-            const sameRowBelow = Math.floor(C / tilesPerRow) === Math.floor(D / tilesPerRow);
-
-            // 3. sprawdź, czy wszystkie index-y istnieją
-            const exists =
-                placementTiles[A] &&
-                placementTiles[B] &&
-                placementTiles[C] &&
-                placementTiles[D];
-
-            // 4. jeśli wszystko OK → podświetl 2×2
-            if (sameRow && sameRowBelow && exists) {
-                if (i === A || i === B || i === C || i === D) {
+                if (
+                    (x === hx     && y === hy) ||
+                    (x === hx + 1 && y === hy) ||
+                    (x === hx     && y === hy + 1) ||
+                    (x === hx + 1 && y === hy + 1)
+                ) {
                     highlight = true;
                 }
             }
