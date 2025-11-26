@@ -7,6 +7,7 @@ canvas.height = 768
 c.fillStyle = 'white';
 c.fillRect(0, 0, canvas.width, canvas.height);
 
+
 const image = new Image();
 image.src = 'media/map.png';
 
@@ -53,19 +54,28 @@ class Enemy {
 
 const enemies = []
 for (let i = 0 ; i <10 ; i++){
+
     const xOffset = i * 150
+
     enemies.push(new Enemy ({
-        position: { x: waypoints[0].x, y: waypoints[0].y }
+        position: { x: waypoints[0].x - xOffset, y: waypoints[0].y }
     }))
 }
 
 function animate() {
     window.requestAnimationFrame(animate);
     c.drawImage(image, 0, 0);
+    enemies.forEach(enemy => {
+            
+        enemy.update();
+
+    })
 
 }
 
+
 image.onload = () => {
     animate();
-};
+        
+}
 
